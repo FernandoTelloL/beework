@@ -3,7 +3,7 @@ import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
-import 'react-native-reanimated';
+import '../global.css'
 
 // Evita que el splash desaparezca automáticamente
 SplashScreen.preventAutoHideAsync();

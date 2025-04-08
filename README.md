@@ -76,3 +76,103 @@ beework
 └─ tsconfig.json
 
 ```
+```
+beework
+├─ README.md
+├─ app
+│  ├─ (stack)
+│  │  ├─ _layout.tsx
+│  │  ├─ allowNotification
+│  │  │  └─ index.tsx
+│  │  ├─ codeVerification
+│  │  │  └─ index.tsx
+│  │  ├─ contacts
+│  │  │  └─ index.tsx
+│  │  ├─ createAccount
+│  │  │  └─ index.tsx
+│  │  ├─ createPassword
+│  │  │  └─ index.tsx
+│  │  ├─ customizeCreateAccount
+│  │  │  └─ index.tsx
+│  │  ├─ dataConfirmation
+│  │  │  └─ index.tsx
+│  │  ├─ description
+│  │  │  └─ index.tsx
+│  │  ├─ follow
+│  │  │  └─ index.tsx
+│  │  ├─ interests
+│  │  │  └─ index.tsx
+│  │  ├─ profilePicture
+│  │  │  └─ index.tsx
+│  │  ├─ userName
+│  │  │  └─ index.tsx
+│  │  └─ welcome
+│  │     └─ index.tsx
+│  ├─ (tabs)
+│  │  ├─ _layout.tsx
+│  │  ├─ explore.tsx
+│  │  └─ index.tsx
+│  └─ _layout.tsx
+├─ app.json
+├─ assets
+│  ├─ fonts
+│  │  ├─ Poppins-Black.ttf
+│  │  ├─ Poppins-Bold.ttf
+│  │  ├─ Poppins-ExtraBold.ttf
+│  │  ├─ Poppins-Light.ttf
+│  │  ├─ Poppins-Medium.ttf
+│  │  ├─ Poppins-Regular.ttf
+│  │  ├─ Poppins-SemiBold.ttf
+│  │  └─ Poppins-Thin.ttf
+│  └─ images
+│     ├─ adaptive-icon.png
+│     ├─ favicon.png
+│     ├─ icon.png
+│     ├─ logo2.png
+│     ├─ partial-react-logo.png
+│     ├─ react-logo.png
+│     ├─ react-logo@2x.png
+│     ├─ react-logo@3x.png
+│     └─ splash-icon.png
+├─ babel.config.js
+├─ eas.json
+├─ global.css
+├─ metro.config.js
+├─ nativewind-env.d.ts
+├─ package-lock.json
+├─ package.json
+├─ src
+│  ├─ contexts
+│  │  └─ README.md
+│  ├─ hooks
+│  │  └─ README.md
+│  ├─ modules
+│  │  └─ auth
+│  │     ├─ adapters
+│  │     ├─ components
+│  │     ├─ context
+│  │     │  ├─ AuthStore.ts
+│  │     │  └─ CreateAccountStore.ts
+│  │     ├─ domain
+│  │     │  ├─ AuthRepository.ts
+│  │     │  └─ User.ts
+│  │     ├─ infrastructure
+│  │     │  └─ AuthRepositoryImpl.ts
+│  │     ├─ usecases
+│  │     │  ├─ GetUserNameUseCase.ts
+│  │     │  ├─ LoginUserUseCase.ts
+│  │     │  └─ SaveUserNameUseCase.ts
+│  │     └─ validation
+│  │        ├─ loginSchema.ts
+│  │        └─ passwordSchema.ts
+│  ├─ services
+│  ├─ shared
+│  ├─ theme
+│  │  └─ README.md
+│  └─ utils
+│     ├─ README.md
+│     └─ dateHelpers.ts
+├─ tailwind.config.js
+└─ tsconfig.json
+
+```

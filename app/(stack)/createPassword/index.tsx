@@ -23,7 +23,7 @@ const CreatePasswordScreen = () => {
       const response = await fetch("https://beework.kuskaya.co/api/auth/sign-up", {
         method: "POST",
         headers: {
-          Accept: "*/*",
+          "Accept": "application/json",
           "Content-Type": "application/json",
         },
         body: JSON.stringify({

@@ -16,30 +16,20 @@ module.exports = {
         error: "#F87272",
       },
       fontFamily: {
-        sans: ["Inter", "sans-serif"],
-        serif: ["Merriweather", "serif"],
-        mono: ["Fira Code", "monospace"],
+        'poppins-thin': ["Poppins-Thin", "sans-serif"],
+        'poppins-light': ["Poppins-Light", "sans-serif"],
+        'poppins-regular': ["Poppins-Regular", "sans-serif"],
+        'poppins-bold': ["Poppins-Bold", "sans-serif"],
+        'poppins-black': ["Poppins-Black", "sans-serif"],
+        'poppins-extrabold': ["Poppins-ExtraBold", "sans-serif"],
+        'poppins-medium': ["Poppins-Medium", "sans-serif"],
+        'poppins-semibold': ["Poppins-SemiBold", "sans-serif"],
       },
       fontSize: {
-        xs: ["0.75rem", { lineHeight: "1rem" }],
-        sm: ["0.875rem", { lineHeight: "1.25rem" }],
-        base: ["1rem", { lineHeight: "1.5rem" }],
-        lg: ["1.125rem", { lineHeight: "1.75rem" }],
-        xl: ["1.25rem", { lineHeight: "1.75rem" }],
-        "2xl": ["1.5rem", { lineHeight: "2rem" }],
-        "3xl": ["1.875rem", { lineHeight: "2.25rem" }],
-        "4xl": ["2.25rem", { lineHeight: "2.5rem" }],
-        "5xl": ["3rem", { lineHeight: "1" }],
+        size18: ["18px"],
       },
     },
   },
-  plugins: [
-  
-  ],
   presets: [require("nativewind/preset")],
-  theme: {
-    extend: {},
-  },
   plugins: [],
-}
-
+};

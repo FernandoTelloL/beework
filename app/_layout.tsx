@@ -1,7 +1,6 @@
 import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
+import { Slot } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 import '../global.css'
 
@@ -9,8 +8,17 @@ import '../global.css'
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
+
+
   const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+    'Poppins-Thin': require('../assets/fonts/Poppins-Thin.ttf'),
+    'Poppins-Regular': require('../assets/fonts/Poppins-Regular.ttf'),
+    'Poppins-Light': require('../assets/fonts/Poppins-Light.ttf'),
+    'Poppins-Bold': require('../assets/fonts/Poppins-Bold.ttf'),
+    'Poppins-Medium': require('../assets/fonts/Poppins-Medium.ttf'),
+    'Poppins-SemiBold': require('../assets/fonts/Poppins-SemiBold.ttf'),
+    'Poppins-ExtraBold': require('../assets/fonts/Poppins-ExtraBold.ttf'),
+    'Poppins-Black': require('../assets/fonts/Poppins-Black.ttf'),
   });
 
   useEffect(() => {
@@ -23,13 +31,5 @@ export default function RootLayout() {
     return null;
   }
 
-  return (
-    <>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="auto" />
-    </>
-  );
+  return <Slot />
 }

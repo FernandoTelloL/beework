@@ -55,7 +55,7 @@ const WelcomeScreen = () => {
         </Text>
 
         <Pressable
-        // onPress={() => router.push('/(stack)/login')}
+         onPress={() => router.push('/(stack)/login')}
         >
           <Text className="fml-2 text-blue-600 ml-2">Inicia sesión</Text>
         </Pressable>

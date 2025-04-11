@@ -1,13 +1,66 @@
-import { Redirect, Slot } from 'expo-router';
-import { Text, View } from 'react-native';
+import React from 'react';
+import { View, FlatList } from 'react-native';
 
+import { useRouter } from 'expo-router';
+import AdCard from '@/src/shared/components/AdCard';
 
+const ads = [
+  {
+    id: '1',
+    title: 'Completa tu perfil',
+    description: 'Actualiza tus datos para obtener mejores recomendaciones.',
+    buttonLabel: 'Actualizar',
+    backgroundColor: '#E8B931',
+    bottomRightIconName: 'checkmark-circle-outline' as const,
+  },
+  {
+    id: '2',
+    title: 'Tareas disponibles',
+    description: 'Descubre nuevas tareas y ofertas cerca de ti.',
+    buttonLabel: 'Buscar',
+    backgroundColor: '#CFF7D3',
+    bottomRightIconName: 'information-circle-outline' as const,
+  },
+  {
+    id: '3',
+    title: 'Al día',
+    description: 'No tenemos novedades por el momento, sigue atento a esta sección para poder participar.',
+    buttonLabel: 'Ok',
+    backgroundColor: '#FFCC00',
+    bottomRightIconName: 'star-outline' as const,
+  },
+  // Agrega más anuncios si lo deseas...
+];
 
 export default function HomeScreen() {
-  return (
-    <View className='flex-1 justify-center items-center' >
-      <Text className='text-6xl text-red-800' >Home Screen</Text>
-    </View >
+  const router = useRouter();
 
+  const renderItem = ({ item }: { item: typeof ads[0] }) => (
+    <AdCard
+      title={item.title}
+      description={item.description}
+      buttonLabel={item.buttonLabel}
+      backgroundColor={item.backgroundColor}
+      bottomRightIconName={item.bottomRightIconName}
+      onClose={() => {
+        // Aquí podrías eliminar la card de la lista o marcarla como "cerrada"
+        console.log('Cerrar anuncio', item.id);
+      }}
+    // onPressButton={() => {
+    //   // Navega a una pantalla de detalle o realiza otra acción
+    //   router.push(`/ad/${item.id}`);
+    // }}
+    />
+  );
+
+  return (
+    <View className="flex-1 bg-gray-100 p-4">
+      <FlatList
+        data={ads}
+        keyExtractor={(item) => item.id}
+        renderItem={renderItem}
+        contentContainerStyle={{ paddingVertical: 8 }}
+      />
+    </View>
   );
 }

@@ -11,13 +11,27 @@ export default function TabLayout() {
         tabBarActiveTintColor: '#673ab7',
         tabBarInactiveTintColor: '#222',
         tabBarShowLabel: true,
+
+        // sceneContainerStyle: { backgroundColor: '#ffffff' },
+
+        tabBarStyle: {
+          height: 70,
+          justifyContent: 'center',
+          paddingTop: 5
+        },
+        tabBarLabelStyle: {
+          marginTop: 5,
+          // Puedes ajustar el padding vertical aquí si es necesario
+          paddingVertical: 0,
+        },
       }}>
 
       <Tabs.Screen
         name="home/index"
         options={{
           title: 'Inicio',
-          tabBarIcon: ({ color }: { color: string }) => <Ionicons size={28} name="home-outline" color={color} />,
+          tabBarIcon: ({ color }: { color: string }) => <Ionicons size={30} name="home-outline" color={color}
+          />,
         }}
       />
       <Tabs.Screen
@@ -51,6 +65,6 @@ export default function TabLayout() {
           tabBarIcon: ({ color }: { color: string }) => <Ionicons size={28} name="person-circle-outline" color={color} />,
         }}
       />
-    </Tabs>
+    </Tabs >
   );
 }

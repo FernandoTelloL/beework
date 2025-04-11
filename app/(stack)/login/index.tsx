@@ -62,7 +62,7 @@ const LoginScreen = () => {
             <View className="flex-row justify-between mb-6 w-full items-center">
               <Pressable
                 className="text-left"
-                onPress={() => router.push("/(stack)/findYourTwitterAccount")}
+                onPress={() => router.push("/(stack)/login")}
               >
                 <Text className="text-black">Forgot password?</Text>
               </Pressable>

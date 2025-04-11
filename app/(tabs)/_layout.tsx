@@ -1,7 +1,6 @@
+import { Ionicons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
 import React from 'react';
-import { Platform } from 'react-native';
-
 
 export default function TabLayout() {
 
@@ -11,25 +10,45 @@ export default function TabLayout() {
         headerShown: false,
         tabBarActiveTintColor: '#673ab7',
         tabBarInactiveTintColor: '#222',
-        tabBarStyle: Platform.select({
-          ios: {
-            // Use a transparent background on iOS to show the blur effect
-            position: 'absolute',
-          },
-          default: {},
-        }),
+        tabBarShowLabel: true,
       }}>
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Home',
 
+      <Tabs.Screen
+        name="home/index"
+        options={{
+          title: 'Inicio',
+          tabBarIcon: ({ color }: { color: string }) => <Ionicons size={28} name="home-outline" color={color} />,
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="buscarTareas/index"
         options={{
-          title: 'Explore',
+          title: 'Buscar Tareas',
+          tabBarIcon: ({ color }: { color: string }) => <Ionicons size={28} name="search-outline" color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="misTareas/index"
+        options={{
+          title: 'Mis Tareas',
+          tabBarIcon: ({ color }: { color: string }) => <Ionicons size={28} name="calendar-outline" color={color} />,
+        }}
+      />
+
+      <Tabs.Screen
+        name="pagos/index"
+        options={{
+          title: 'Pagos',
+          tabBarIcon: ({ color }: { color: string }) => <Ionicons size={28} name="happy-outline" color={color} />,
+        }}
+      />
+
+
+      <Tabs.Screen
+        name="perfil/index"
+        options={{
+          title: 'Perfil',
+          tabBarIcon: ({ color }: { color: string }) => <Ionicons size={28} name="person-circle-outline" color={color} />,
         }}
       />
     </Tabs>

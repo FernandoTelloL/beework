@@ -17,7 +17,6 @@ const StackLayout = () => {
       }}
     >
 
-
       <Stack.Screen
         name='welcome/index'
         options={{

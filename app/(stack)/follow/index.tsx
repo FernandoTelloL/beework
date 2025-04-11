@@ -103,7 +103,7 @@ const FollowScreen = () => {
       {/* Botón Next */}
       <View className="p-4">
         <Pressable
-          onPress={() => router.push("/follow")}
+          onPress={() => router.push("/(tabs)/home")}
           disabled={following.length === 0}
           className={`py-3 rounded-lg text-center ${following.length > 0 ? "bg-black" : "bg-gray-400"
             }`}

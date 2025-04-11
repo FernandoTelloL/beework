@@ -48,5 +48,12 @@
     "@types/react": "~18.3.12",
     "typescript": "^5.3.3"
   },
+  "expo": {
+    "doctor": {
+      "reactNativeDirectoryCheck": {
+        "listUnknownPackages": false
+      }
+    }
+  },
   "private": true
 }

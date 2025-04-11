@@ -22,7 +22,7 @@ const EnterYourPasswordScreen = () => {
       console.log("Valores en EnterYourPasswordScreen -> password:", values.password, "email:", email, "token:", token);
       const role = await callMeUseCase.execute(token);
       console.log("Valores en EnterYourPasswordScreen -> password:", values.password, "email:", email, "token:", token, "role:", role);
-      router.push("/follow");
+      router.push("/(tabs)/home");
     } catch (error) {
       Alert.alert("BeeWork", "Credenciales no validas");
     }

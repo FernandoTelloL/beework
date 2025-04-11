@@ -8,8 +8,6 @@ import '../global.css'
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-
-
   const [loaded] = useFonts({
     'Poppins-Thin': require('../assets/fonts/Poppins-Thin.ttf'),
     'Poppins-Regular': require('../assets/fonts/Poppins-Regular.ttf'),
@@ -31,5 +29,6 @@ export default function RootLayout() {
     return null;
   }
 
-  return <Slot />
+  // Renderiza el Slot para permitir la navegación
+  return <Slot />;
 }

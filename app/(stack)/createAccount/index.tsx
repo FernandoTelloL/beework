@@ -1,11 +1,13 @@
 import { useState } from "react";
-import { View, Text, TextInput, Pressable, KeyboardAvoidingView, Platform } from "react-native";
+import { View, Text, TextInput, Pressable, KeyboardAvoidingView, Platform, useColorScheme } from "react-native";
 import { Ionicons } from '@expo/vector-icons';
 import { router } from "expo-router";
-import DateTimePicker from "@react-native-community/datetimepicker";
 import useCreateAccountStore from "@/src/modules/auth/context/CreateAccountStore";
 import { Formik } from "formik";
 import { createAccountSchema } from "@/src/modules/auth/validation/createAccountSchema";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+
+
 
 const CreateAccountScreen = () => {
   const { setName, setLastName, setEmail, setBirthDate } = useCreateAccountStore();
@@ -19,6 +21,9 @@ const CreateAccountScreen = () => {
       year: "numeric",
     });
   };
+
+  const colorScheme = useColorScheme();
+  const darkModeEnabled = colorScheme === "dark";
 
   return (
     <KeyboardAvoidingView
@@ -51,10 +56,9 @@ const CreateAccountScreen = () => {
           errors,
           touched,
         }) => (
-          <View className="flex-1 justify-between py-4 w-[350] mx-auto">
+          <View className="flex-1 justify-between py-4 w-[350px] mx-auto">
             <View className="items-center">
               <View className="w-12 h-12 bg-gray-300 rounded-full mb-6" />
-
               <Text className="text-2xl mb-12 font-poppins-bold">Crea tu cuenta</Text>
 
               {/* Nombre */}
@@ -68,9 +72,7 @@ const CreateAccountScreen = () => {
                   value={values.name}
                 />
               </View>
-              {touched.name && errors.name && (
-                <Text className="text-red-500">{errors.name}</Text>
-              )}
+              {touched.name && errors.name && <Text className="text-red-500">{errors.name}</Text>}
 
               {/* Apellidos */}
               <View className="w-full border border-gray-300 rounded-md px-4 py-2 mb-4">
@@ -83,12 +85,10 @@ const CreateAccountScreen = () => {
                   value={values.lastName}
                 />
               </View>
-              {touched.lastName && errors.lastName && (
-                <Text className="text-red-500">{errors.lastName}</Text>
-              )}
+              {touched.lastName && errors.lastName && <Text className="text-red-500">{errors.lastName}</Text>}
 
               {/* Correo electrónico */}
-              <View className="w-full  border border-gray-300 rounded-md px-4 py-1 mb-4">
+              <View className="w-full border border-gray-300 rounded-md px-4 py-1 mb-4">
                 <TextInput
                   className="text-base font-poppins-regular"
                   placeholder="Correo electrónico"
@@ -100,39 +100,33 @@ const CreateAccountScreen = () => {
                   textContentType="emailAddress"
                 />
               </View>
-              {touched.email && errors.email && (
-                <Text className="text-red-500">{errors.email}</Text>
-              )}
+              {touched.email && errors.email && <Text className="text-red-500">{errors.email}</Text>}
 
               {/* Fecha de nacimiento */}
               <Pressable
-                className="w-full  border border-gray-300 rounded-md px-4 py-4 mb-4 flex-row justify-between items-center"
+                className="w-full border border-gray-300 rounded-md px-4 py-4 mb-4 flex-row justify-between items-center"
                 onPress={() => setShowDatePicker(true)}
               >
-                <Text
-                  className={`font-poppins-regular ${values.birthDate ? "text-black" : "text-gray-400"}`}
-                >
+                <Text className={`font-poppins-regular ${values.birthDate ? "text-black" : "text-gray-400"}`}>
                   {values.birthDate ? formatDate(values.birthDate) : "Fecha de nacimiento"}
                 </Text>
                 <Ionicons name="calendar" size={24} color="black" />
               </Pressable>
-              {touched.birthDate && errors.birthDate && (
-                <Text className="text-red-500">{errors.birthDate}</Text>
-              )}
+              {touched.birthDate && errors.birthDate && <Text className="text-red-500">{errors.birthDate}</Text>}
 
-              {showDatePicker && (
-                <DateTimePicker
-                  value={values.birthDate ?? new Date()}
-                  mode="date"
-                  display="spinner"
-                  onChange={(_event, selectedDate) => {
-                    setShowDatePicker(false);
-                    if (selectedDate) {
-                      setFieldValue("birthDate", selectedDate);
-                    }
-                  }}
-                />
-              )}
+              {/* Modal Date Picker */}
+              <DateTimePickerModal
+                isVisible={showDatePicker}
+                mode="date"
+                onConfirm={(date) => {
+                  setShowDatePicker(false);
+                  setFieldValue("birthDate", date);
+                }}
+                onCancel={() => setShowDatePicker(false)}
+                maximumDate={new Date()} // Evita fechas futuras
+                locale="es-ES"
+                themeVariant={darkModeEnabled ? "dark" : "light"}
+              />
             </View>
 
             <View className="w-full">

@@ -39,7 +39,9 @@ const DataConfirmationScreen = () => {
       console.log("midata", data);
 
       if (!response.ok) {
-        throw new Error(data.message || "Error en el registro");
+        const errorMessage =
+          data?.errors?.[0]?.message || "Error en el registro";
+        throw new Error(errorMessage);
       }
 
       setInvitationToken(data.invitationToken);
@@ -55,12 +57,12 @@ const DataConfirmationScreen = () => {
   };
 
   return (
-    <View className="flex-1 justify-between p-4 font-poppins-regular">
+    <View className="flex-1 justify-between py-4 font-poppins-regular w-[85%] mx-auto">
       <View className="items-center">
         <View className="w-16 h-16 bg-gray-300 rounded-full mb-6" />
 
         <Text className="text-2xl mb-10 font-poppins-bold text-center">
-          Create your Account
+          Data Confirmation
         </Text>
 
         <View className="w-full space-y-4">

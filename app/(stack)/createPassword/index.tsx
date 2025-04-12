@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { View, Text, TextInput, Pressable, Alert, ActivityIndicator } from "react-native";
+import { View, Text, TextInput, Pressable, Alert, ActivityIndicator, KeyboardAvoidingView, Platform } from "react-native";
 import { Ionicons } from '@expo/vector-icons';
 import { router } from "expo-router";
 import useCreateAccountStore from "@/src/modules/auth/context/CreateAccountStore";
@@ -50,59 +50,67 @@ const CreatePasswordScreen = () => {
   };
 
   return (
-    <View className="flex-1 justify-between p-4 font-poppins-regular">
-      {/* Contenedor superior */}
-      <View className="items-center flex-grow">
-        {/* Avatar */}
-        <View className="w-16 h-16 bg-gray-300 rounded-full mb-6" />
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : undefined}
+      className="flex-1 bg-white"
+      keyboardVerticalOffset={100}
+    >
 
-        {/* Título */}
-        <Text className="text-2xl mb-2 font-poppins-bold text-center">
-          You’ll need a password
-        </Text>
+      <View className="flex-1 justify-between p-4 font-poppins-regular w-[85%] mx-auto">
+        {/* Contenedor superior */}
+        <View className="items-center flex-grow">
+          {/* Avatar */}
+          <View className="w-16 h-16 bg-gray-300 rounded-full mb-6" />
 
-        {/* Subtítulo */}
-        <Text className="text-base text-black-600 mb-6 mt-2 font-poppins-regular text-center">
-          Make sure it’s 8 characters or above
-        </Text>
+          {/* Título */}
+          <Text className="text-2xl mb-2 font-poppins-bold text-center">
+            You’ll need a password
+          </Text>
 
-        {/* Input de contraseña */}
-        <View className="w-full flex-row items-center border border-gray-300 rounded-md px-4 py-1 mb-4 font-poppins-regular">
-          <TextInput
-            className="flex-1 text-base font-poppins-regular"
-            placeholder="Enter password"
-            secureTextEntry={!showPassword}
-            value={temporalPassword}
-            onChangeText={setTemporalPassword}
-          />
-          <Ionicons name="arrow-forward-circle-outline" size={24} color="gray" />
+          {/* Subtítulo */}
+          <Text className="text-base text-black-600 mb-6 mt-2 font-poppins-regular text-center">
+            Make sure it’s 8 characters or above
+          </Text>
+
+          {/* Input de contraseña */}
+          <View className="w-full flex-row items-center border border-gray-300 rounded-md px-4 py-1 mb-4 font-poppins-regular">
+            <TextInput
+              className="flex-1 text-base font-poppins-regular"
+              placeholder="Enter password"
+              secureTextEntry={!showPassword}
+              value={temporalPassword}
+              onChangeText={setTemporalPassword}
+            />
+            <Ionicons name="arrow-forward-circle-outline" size={24} color="gray" />
+          </View>
+
+          {/* Texto para mostrar la contraseña */}
+          <Text
+            className="text-base text-blue-500 font-poppins-regular text-right w-full"
+            onPress={() => setShowPassword(!showPassword)}
+          >
+            Reveal password
+          </Text>
         </View>
 
-        {/* Texto para mostrar la contraseña */}
-        <Text
-          className="text-base text-blue-500 font-poppins-regular text-right w-full"
-          onPress={() => setShowPassword(!showPassword)}
-        >
-          Reveal password
-        </Text>
+        {/* Contenedor inferior */}
+        <View className="mb-6">
+          <Pressable
+            className={`w-full py-3 rounded-lg items-center ${isPasswordValid ? "bg-black" : "bg-gray-400"
+              }`}
+            disabled={!isPasswordValid || loading}
+            onPress={handleSubmit}
+          >
+            {loading ? (
+              <ActivityIndicator color="#fff" />
+            ) : (
+              <Text className="text-white font-semibold text-lg">Next</Text>
+            )}
+          </Pressable>
+        </View>
       </View>
 
-      {/* Contenedor inferior */}
-      <View className="mb-6">
-        <Pressable
-          className={`w-full py-3 rounded-lg items-center ${isPasswordValid ? "bg-black" : "bg-gray-400"
-            }`}
-          disabled={!isPasswordValid || loading}
-          onPress={handleSubmit}
-        >
-          {loading ? (
-            <ActivityIndicator color="#fff" />
-          ) : (
-            <Text className="text-white font-semibold text-lg">Next</Text>
-          )}
-        </Pressable>
-      </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 

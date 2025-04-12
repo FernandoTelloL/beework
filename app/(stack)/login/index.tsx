@@ -38,13 +38,13 @@ const LoginScreen = () => {
           <>
             <View className="items-center">
               <View className="w-12 h-12 bg-gray-300 rounded-full mb-6" />
-              <Text className="text-2xl mb-4 font-poppins-bold">
+              <Text className="text-2xl mb-12 font-poppins-bold">
                 To get started, first enter your phone, email, or @username
               </Text>
 
-              <View className="w-full flex-row items-center border border-gray-300 rounded-md px-4 py-3 mb-4">
+              <View className="w-[350] flex-row items-center border border-gray-300 rounded-md px-4 py-3 mb-4">
                 <TextInput
-                  className="flex-1 text-base"
+                  className="flex-1 text-base font-poppins-regular"
                   placeholder="Phone, email or username"
                   onChangeText={handleChange("inputValue")}
                   onBlur={handleBlur("inputValue")}

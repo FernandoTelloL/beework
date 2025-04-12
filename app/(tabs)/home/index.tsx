@@ -1,8 +1,9 @@
 import React from 'react';
-import { View, FlatList } from 'react-native';
+import { View, FlatList, Text } from 'react-native';
 
 import { useRouter } from 'expo-router';
 import AdCard from '@/src/shared/components/AdCard';
+import useLoginStore from '@/src/modules/auth/context/LoginStore';
 
 const ads = [
   {
@@ -35,6 +36,9 @@ const ads = [
 export default function HomeScreen() {
   const router = useRouter();
 
+  const { token, email, isAuthenticated, } = useLoginStore()
+
+
   const renderItem = ({ item }: { item: typeof ads[0] }) => (
     <AdCard
       title={item.title}
@@ -55,6 +59,15 @@ export default function HomeScreen() {
 
   return (
     <View className="flex-1 bg-gray-100 p-4">
+
+      <View>
+        <Text>miToken: {token}</Text>
+        <Text>micorreo: {email}</Text>
+        <Text>isAuthenticated: {isAuthenticated ? 'true' : 'false'}</Text>
+
+
+      </View>
+
       <FlatList
         data={ads}
         keyExtractor={(item) => item.id}

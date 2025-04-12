@@ -1,34 +1,34 @@
 import { AuthRepository } from "../domain/AuthRepository";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
+import useLoginStore from "../context/LoginStore";
 
 export class AuthRepositoryImpl implements AuthRepository {
 
-  async saveUserName(name: string): Promise<void> {
-    await AsyncStorage.setItem("userName", name);
-  }
-
-  getUserName(): string | null {
-    return AsyncStorage.getItem("userName") as unknown as string;
-  }
-
   async login(email: string, password: string): Promise<string> {
     try {
-      
+
+      const { setToken, setisAuthenticated, token, isAuthenticated } = useLoginStore.getState();
+
       const requestData = { email, password };
       const response = await axios.post(
-          'https://beework.kuskaya.co/api/auth/sign-in',
-          requestData
+        'https://beework.kuskaya.co/api/auth/sign-in',
+        requestData
       );
 
       if (response.data === true && response.headers['set-cookie']) {
         const cookie = response.headers['set-cookie'][0];
         const sessionCookie = decodeURIComponent(
-            cookie.split('__session=')[1]?.split(';')[0]
+          cookie.split('__session=')[1]?.split(';')[0]
         );
         const sessionData = JSON.parse(sessionCookie);
-        const token = sessionData.token;
-        return token;
+        const localToken = sessionData.token;
+        setToken(localToken);
+        setisAuthenticated(true);
+        await this.callMe(localToken)
+        console.log(localToken, "token");
+        console.log(true, "isAuthenticated");
+        return localToken
       } else {
         throw new Error("Credenciales incorrectas");
       }
@@ -57,14 +57,14 @@ export class AuthRepositoryImpl implements AuthRepository {
       const role = userRoles.includes('driver')
         ? 'driver'
         : userRoles.includes('verifier')
-        ? 'verifier'
-        : '';
+          ? 'verifier'
+          : '';
 
-        await AsyncStorage.setItem(
-          'userSession',
-          JSON.stringify({ token, membershipId, firstName, role, profilePicture })
-        );
-      
+      await AsyncStorage.setItem(
+        'userSession',
+        JSON.stringify({ token, membershipId, firstName, role, profilePicture })
+      );
+
     } catch (error) {
       throw new Error("Credenciales incorrectas");
     }

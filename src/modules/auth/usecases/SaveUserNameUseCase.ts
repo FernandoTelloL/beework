@@ -1,9 +1,9 @@
-import { AuthRepository } from "../domain/AuthRepository";
+// import { AuthRepository } from "../domain/AuthRepository";
 
-export class SaveUserNameUseCase {
-  constructor(private authRepository: AuthRepository) { }
+// export class SaveUserNameUseCase {
+//   constructor(private authRepository: AuthRepository) { }
 
-  execute(name: string): void {
-    this.authRepository.saveUserName(name);
-  }
-}
+//   execute(name: string): void {
+//     this.authRepository.saveUserName(name);
+//   }
+// }

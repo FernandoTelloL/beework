@@ -1,29 +1,26 @@
 import { View, Text, TextInput, Pressable } from "react-native";
 import { Ionicons } from '@expo/vector-icons';
 import { router } from "expo-router";
-import { useAuth } from "@/src/modules/auth/context/AuthStore";
-import { SaveUserNameUseCase } from "@/src/modules/auth/usecases/SaveUserNameUseCase";
+
+// import { SaveUserNameUseCase } from "@/src/modules/auth/usecases/SaveUserNameUseCase";
 import { AuthRepositoryImpl } from "@/src/modules/auth/infrastructure/AuthRepositoryImpl";
 import { Formik } from "formik";
 import { loginSchema } from "@/src/modules/auth/validation/loginSchema";
+import useCreateAccountStore from "@/src/modules/auth/context/CreateAccountStore";
+import useLoginStore from "@/src/modules/auth/context/LoginStore";
 
 const authRepository = new AuthRepositoryImpl();
-const saveUserNameUseCase = new SaveUserNameUseCase(authRepository);
+// const saveUserNameUseCase = new SaveUserNameUseCase(authRepository);
 
 const LoginScreen = () => {
-  const { setUserName, setEmail } = useAuth();
+  const { setEmail } = useLoginStore();
 
   const handleNext = (values: any) => {
     const { inputValue } = values;
-    if (inputValue.includes("@")) {
-      setEmail(inputValue);
-      setUserName("");
-    } else {
-      setUserName(inputValue);
-      setEmail("");
-    }
 
-    saveUserNameUseCase.execute(inputValue);
+    setEmail(inputValue);
+
+    // saveUserNameUseCase.execute(inputValue);
     router.push("/(stack)/enterYourPassword");
   };
 

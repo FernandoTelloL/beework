@@ -1,30 +1,38 @@
 import { View, Text, TextInput, Pressable, Alert } from "react-native";
-import { router } from "expo-router";
-import { useAuth } from "@/src/modules/auth/context/AuthStore";
+import { Redirect, router } from "expo-router";
+
 import { LoginUserUseCase } from "@/src/modules/auth/usecases/LoginUserUseCase";
 import { CallMeUseCase } from "@/src/modules/auth/usecases/CallMeUseCase";
 import { AuthRepositoryImpl } from "@/src/modules/auth/infrastructure/AuthRepositoryImpl";
 import { Formik } from "formik";
 import { passwordSchema } from "@/src/modules/auth/validation/passwordSchema";
+import useLoginStore from "@/src/modules/auth/context/LoginStore";
 
-const authRepository = new AuthRepositoryImpl();
+const authRepository = new AuthRepositoryImpl(); // Instancia única del repositorio
+
+// Reutilizamos la misma instancia del repositorio en los casos de uso
 const loginUserUseCase = new LoginUserUseCase(authRepository);
-const callMeUseCase = new CallMeUseCase(authRepository);
+// const callMeUseCase = new CallMeUseCase(authRepository);
 
 const EnterYourPasswordScreen = () => {
-  const { userName, email } = useAuth();
+  const { email, setToken, setisAuthenticated, isAuthenticated, token } = useLoginStore();
 
-  console.log("Valores en EnterYourPasswordScreen -> userName:", userName, "email:", email);
+  console.log("Valores en EnterYourPasswordScreen ->  email:", email);
 
   const handleLogin = async (values: { password: string }) => {
     try {
+      console.log('inicio de login');
       const token = await loginUserUseCase.execute(email!, values.password);
-      console.log("Valores en EnterYourPasswordScreen -> password:", values.password, "email:", email, "token:", token);
-      const role = await callMeUseCase.execute(token);
-      console.log("Valores en EnterYourPasswordScreen -> password:", values.password, "email:", email, "token:", token, "role:", role);
-      router.push("/(tabs)/home");
+
+      // Actualiza el estado global
+      setToken(token);
+      setisAuthenticated(true); // asegúrate de que esto ocurra dentro del usecase o aquí
+
+      // Navega directamente
+      router.push('/(tabs)/home');
     } catch (error) {
-      Alert.alert("BeeWork", "Credenciales no validas");
+      console.log(error);
+      Alert.alert("BeeWork", "Credenciales no válidas");
     }
   };
 
@@ -43,7 +51,7 @@ const EnterYourPasswordScreen = () => {
 
               <View className="w-full flex-row justify-between border border-gray-300 rounded-md px-4 py-3 mb-4">
                 <Text className="text-base font-poppins-regular">
-                  {userName || email}
+                  {email}
                 </Text>
               </View>
 

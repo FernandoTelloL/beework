@@ -8,6 +8,8 @@ interface CreateAccountStore {
   birthDate: Date | null;
   invitationToken: string | null;
   password: string | null;
+  userName: string | null;
+  setUserName: (userName: string) => void;
   setPassword: (password: string) => void;
   setInvitationToken: (invitationToken: string) => void;
   setName: (name: string) => void;
@@ -24,6 +26,8 @@ const useCreateAccountStore = create<CreateAccountStore>((set) => ({
   birthDate: null,
   invitationToken: null,
   password: null,
+  userName: null,
+  setUserName: (userName) => set({ userName }),
   setPassword: (password) => set({ password }),
   setInvitationToken: (invitationToken) => set({ invitationToken }),
   setName: (name) => set({ name }),

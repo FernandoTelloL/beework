@@ -5,7 +5,7 @@ import { router } from 'expo-router'
 const WelcomeScreen = () => {
 
   return (
-    <SafeAreaView className='flex-1 items-center mt-12 px-4 w-full'>
+    <SafeAreaView className='flex-1 items-center mt-6 px-4 w-[85%] mx-auto'>
 
       {/* Logo con tamaño definido */}
       <Image
@@ -15,35 +15,32 @@ const WelcomeScreen = () => {
       />
 
 
-      <Text className="font-poppins-bold text-3xl text-black mt-6 leading-normal tracking-normal w-full text-center">
+      <Text className="font-poppins-bold text-2xl text-black mt-6 leading-normal tracking-normal w-full text-center">
         Trabaja cuando quieras y gana hasta S/. 50 la hora.
       </Text>
 
 
       <Pressable
-        className="mt-8 bg-gray-200 rounded-xl px-8 py-4 shadow-lg w-[350] shadow-black active:shadow-lg"
+        className="mt-8 bg-gray-200 rounded-xl py-4 shadow-lg w-full shadow-black active:shadow-lg"
         onPress={() => router.push('/welcome')}
       >
-        <Text className="font-poppins-regular text-black text-[18px] text-center">Continuar con Google</Text>
+        <Text className="font-poppins-regular text-black text-center">Continuar con Google</Text>
       </Pressable>
 
       <Pressable
-        className="mt-8 bg-gray-200 rounded-xl px-8 py-4 shadow-lg shadow-black active:shadow-lg w-[350]"
+        className="mt-8 bg-gray-200 rounded-xl px-8 py-4 shadow-lg shadow-black active:shadow-lg w-full"
       // onPress={() => router.push('/(stack)/findYourTwitterAccount')}
       >
-        <Text className="font-poppins-regular text-black text-[18px] text-center">Continuar con Apple</Text>
+        <Text className="font-poppins-regular text-black text-center">Continuar con Apple</Text>
       </Pressable>
 
-      <View className='my-6'>
-
-        <Text className='font-poppins-regular'>o</Text>
-      </View>
+      <Text className='font-poppins-regular my-6'>o</Text>
 
       <Pressable
-        className=" bg-black rounded-xl px-8 py-4 shadow-lg shadow-black active:shadow-lg w-[350]"
+        className=" bg-black rounded-xl px-8 py-4 shadow-lg shadow-black active:shadow-lg w-full"
         onPress={() => router.push('/(stack)/createAccount')}
       >
-        <Text className="font-poppins-regular text-white text-[18px] text-center">Crea una Cuenta</Text>
+        <Text className="font-poppins-regular text-white text-center">Crea una Cuenta</Text>
       </Pressable>
 
 

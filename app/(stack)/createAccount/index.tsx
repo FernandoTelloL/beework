@@ -56,13 +56,13 @@ const CreateAccountScreen = () => {
           errors,
           touched,
         }) => (
-          <View className="flex-1 justify-between py-4 w-[350px] mx-auto">
+          <View className="flex-1 justify-between py-4 w-[85%] mx-auto">
             <View className="items-center">
               <View className="w-12 h-12 bg-gray-300 rounded-full mb-6" />
               <Text className="text-2xl mb-12 font-poppins-bold">Crea tu cuenta</Text>
 
               {/* Nombre */}
-              <View className="w-full border border-gray-300 rounded-md px-4 py-2 mb-4">
+              <View className="w-full border border-gray-300 rounded-md px-4 py-2 mb-2">
                 <TextInput
                   className="text-base font-poppins-regular"
                   placeholder="Nombre"
@@ -72,10 +72,10 @@ const CreateAccountScreen = () => {
                   value={values.name}
                 />
               </View>
-              {touched.name && errors.name && <Text className="text-red-500">{errors.name}</Text>}
+              {touched.name && errors.name && <Text className="mb-6 text-red-500">{errors.name}</Text>}
 
               {/* Apellidos */}
-              <View className="w-full border border-gray-300 rounded-md px-4 py-2 mb-4">
+              <View className="w-full border border-gray-300 rounded-md px-4 py-2 mb-2">
                 <TextInput
                   className="text-base font-poppins-regular"
                   placeholder="Apellidos"
@@ -85,10 +85,10 @@ const CreateAccountScreen = () => {
                   value={values.lastName}
                 />
               </View>
-              {touched.lastName && errors.lastName && <Text className="text-red-500">{errors.lastName}</Text>}
+              {touched.lastName && errors.lastName && <Text className="text-red-500 mb-6">{errors.lastName}</Text>}
 
               {/* Correo electrónico */}
-              <View className="w-full border border-gray-300 rounded-md px-4 py-1 mb-4">
+              <View className="w-full border border-gray-300 rounded-md px-4 py-1 mb-2">
                 <TextInput
                   className="text-base font-poppins-regular"
                   placeholder="Correo electrónico"
@@ -100,7 +100,7 @@ const CreateAccountScreen = () => {
                   textContentType="emailAddress"
                 />
               </View>
-              {touched.email && errors.email && <Text className="text-red-500">{errors.email}</Text>}
+              {touched.email && errors.email && <Text className="mb-6 text-red-500">{errors.email}</Text>}
 
               {/* Fecha de nacimiento */}
               <Pressable
@@ -110,7 +110,7 @@ const CreateAccountScreen = () => {
                 <Text className={`font-poppins-regular ${values.birthDate ? "text-black" : "text-gray-400"}`}>
                   {values.birthDate ? formatDate(values.birthDate) : "Fecha de nacimiento"}
                 </Text>
-                <Ionicons name="calendar" size={24} color="black" />
+                <Ionicons name="calendar" size={22} color="black" />
               </Pressable>
               {touched.birthDate && errors.birthDate && <Text className="text-red-500">{errors.birthDate}</Text>}
 

@@ -35,6 +35,9 @@ const CreatePasswordScreen = () => {
       });
 
       if (response.ok) {
+
+
+
         router.push("/profilePicture");
       } else {
         const errorData = await response.json();

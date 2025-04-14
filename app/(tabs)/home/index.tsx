@@ -1,9 +1,12 @@
-import React from 'react';
-import { View, FlatList, Text } from 'react-native';
+import React, { useEffect } from 'react';
+import { View, FlatList } from 'react-native';
+import Toast from 'react-native-toast-message';
 
 import { useRouter } from 'expo-router';
 import AdCard from '@/src/shared/components/AdCard';
 import useLoginStore from '@/src/modules/auth/context/LoginStore';
+import useUserProfileStore from '@/src/modules/auth/context/UserProfileStore';
+import useCreateAccountStore from '@/src/modules/auth/context/CreateAccountStore';
 
 const ads = [
   {
@@ -30,14 +33,27 @@ const ads = [
     backgroundColor: '#FFCC00',
     bottomRightIconName: 'star-outline' as const,
   },
-  // Agrega más anuncios si lo deseas...
 ];
 
 export default function HomeScreen() {
   const router = useRouter();
+  const { token, email, isAuthenticated } = useLoginStore();
+  const { name, lastName } = useCreateAccountStore();
+  const { userId } = useUserProfileStore();
 
-  const { token, email, isAuthenticated, } = useLoginStore()
-
+  useEffect(() => {
+    if (name && lastName) {
+      Toast.show({
+        type: 'welcome', // Usamos el tipo personalizado
+        text1: `¡Bienvenido ${name} ${lastName}!`,
+        text2: 'Nos alegra tenerte por aquí 😊',
+        visibilityTime: 6000,
+        autoHide: true,
+        topOffset: 40,
+        position: 'top',
+      });
+    }
+  }, [name, lastName]);
 
   const renderItem = ({ item }: { item: typeof ads[0] }) => (
     <AdCard
@@ -46,28 +62,12 @@ export default function HomeScreen() {
       buttonLabel={item.buttonLabel}
       backgroundColor={item.backgroundColor}
       bottomRightIconName={item.bottomRightIconName}
-      onClose={() => {
-        // Aquí podrías eliminar la card de la lista o marcarla como "cerrada"
-        console.log('Cerrar anuncio', item.id);
-      }}
-    // onPressButton={() => {
-    //   // Navega a una pantalla de detalle o realiza otra acción
-    //   router.push(`/ad/${item.id}`);
-    // }}
+      onClose={() => console.log('Cerrar anuncio', item.id)}
     />
   );
 
   return (
     <View className="flex-1 bg-gray-100 p-4">
-
-      <View>
-        <Text>miToken: {token}</Text>
-        <Text>micorreo: {email}</Text>
-        <Text>isAuthenticated: {isAuthenticated ? 'true' : 'false'}</Text>
-
-
-      </View>
-
       <FlatList
         data={ads}
         keyExtractor={(item) => item.id}

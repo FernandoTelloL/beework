@@ -2,7 +2,10 @@ import { useFonts } from 'expo-font';
 import { Slot } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
+import Toast from 'react-native-toast-message';
 import '../global.css'
+import { CustomWelcomeToast } from '@/src/shared/components/CustomToast';
+
 
 // Evita que el splash desaparezca automáticamente
 SplashScreen.preventAutoHideAsync();
@@ -30,5 +33,14 @@ export default function RootLayout() {
   }
 
   // Renderiza el Slot para permitir la navegación
-  return <Slot />;
+  return (
+    <>
+      <Slot />
+      <Toast
+        config={{
+          welcome: (props) => <CustomWelcomeToast {...props} />,
+        }}
+      />
+    </>
+  );
 }

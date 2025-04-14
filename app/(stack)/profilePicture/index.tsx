@@ -10,6 +10,8 @@ import useCreateAccountStore from "@/src/modules/auth/context/CreateAccountStore
 import { CallMeUseCase } from "@/src/modules/auth/usecases/CallMeUseCase";
 import useUserProfileStore from "@/src/modules/auth/context/UserProfileStore";
 import { uploadImageToBeeWork } from "@/src/utils/uploadImageToBeeWork";
+import uuid from 'react-native-uuid';
+import { updateUserProfile } from "@/src/utils/updateUserProfile";
 
 const authRepository = new AuthRepositoryImpl();
 const loginUserUseCase = new LoginUserUseCase(authRepository);
@@ -17,14 +19,11 @@ const callMeUseCase = new CallMeUseCase(authRepository);
 
 const ProfilePictureScreen = () => {
   const [avatar, setAvatar] = useState<string | null>(null);
+  const [isNextEnabled, setIsNextEnabled] = useState(false);
 
   // variables de contexto login
   const { setToken, setisAuthenticated, isAuthenticated, password, token } = useLoginStore();
-
-  const { name, lastName } = useCreateAccountStore()
-
-
-  const { email } = useCreateAccountStore();
+  const { name, lastName, email } = useCreateAccountStore();
   const { userId } = useUserProfileStore();
 
   useEffect(() => {
@@ -39,7 +38,6 @@ const ProfilePictureScreen = () => {
       await loginUserUseCase.execute(email!, password);
     } catch (error) {
       console.error(error);
-      Alert.alert("BeeWork", "Credenciales no válidas desde avatar");
     }
   };
 
@@ -59,43 +57,64 @@ const ProfilePictureScreen = () => {
 
     if (!result.canceled) {
       setAvatar(result.assets[0].uri);
+      setIsNextEnabled(true); // activar el botón Next si seleccionó una imagen
     }
   };
 
   const handleUpload = async () => {
     if (!avatar || !userId || !token) {
-      Alert.alert("Error", "Faltan datos necesarios para subir la imagen.");
+      console.log("Error", "Faltan datos necesarios para subir la imagen.")
       return;
     }
 
-    const result = await uploadImageToBeeWork(avatar, userId, token);
-    console.log('result', result)
-    // Log de las respuestas de ambos endpoints
-    if (result.success) {
-      console.log("✅ Primer endpoint - Credenciales de carga:", result.downloadUrl);
-      // console.log("✅ Segundo endpoint - Respuesta local-upload:", result.relativeFilePath);
+    try {
+      console.log('🔽 handleUpload ejecutado');
 
-      const avatarData = {
-        id: crypto.randomUUID(),
-        downloadUrl: result.downloadUrl,
-        // relativeFilePath: result.relativeFilePath,
-      };
+      const result = await uploadImageToBeeWork(avatar, userId, token);
+      if (result.success) {
+        const getRelativeFilePathFromUrl = (url: string): string | null => {
+          const params = new URLSearchParams(url.split('?')[1]);
+          return params.get('relativeFilePath');
+        };
 
-      const profileUpdateData = {
-        firstName: name,
-        lastName: lastName,
-        avatars: [avatarData], // Aquí va el objeto completo con relativeFilePath, etc.
-        roles: ["admin"]
-      };
+        const relativeFilePath = result.downloadUrl ? getRelativeFilePathFromUrl(result.downloadUrl) : null;
 
-      // Aquí llamas el endpoint para actualizar el perfil, si es necesario
-      // await updateProfileUseCase.execute(profileUpdateData);
+        const avatarData = {
+          downloadUrl: result.downloadUrl,
+          filename: result.filename,
+          id: uuid.v4(),
+          relativeFilePaths: relativeFilePath,
+          sizeInBytes: result.sizeInBytes,
+        };
 
-      Alert.alert("Éxito", "Imagen subida correctamente 🎉");
-      router.push("/description");
-    } else {
-      Alert.alert("Error", "Hubo un problema al subir la imagen.");
+        const profileUpdateData = {
+          firstName: name,
+          lastName: lastName,
+          avatars: [avatarData],
+          roles: ["admin"]
+        };
+
+        console.log("✅ profileUpdateData:", JSON.stringify(profileUpdateData, null, 2));
+
+        const updateResult = await updateUserProfile(profileUpdateData, token);
+
+        if (updateResult.success) {
+          router.push("/description");
+        } else {
+          console.log("⚠️ No se pudo agragar tu imagen a tu perfil:", updateResult.error);
+          Alert.alert("Error", "No se pudo agragar tu imagen a tu perfil");
+        }
+      } else {
+        console.log('⛔ Falló uploadImageToBeeWork:', result);
+        Alert.alert("Error", "Hubo un problema al subir la imagen.");
+      }
+    } catch (error) {
+      console.error('❌ Error en handleUpload:', error);
     }
+  };
+
+  const handleSkip = () => {
+    router.push("/description"); // Solo navega sin subir imagen ni actualizar perfil
   };
 
   return (
@@ -105,9 +124,6 @@ const ProfilePictureScreen = () => {
         <Text className="text-2xl font-poppins-bold text-center">Pick a profile picture</Text>
         <Text className="text-base text-black-600 mt-2 mb-6 font-poppins-regular text-center">
           Have a favorite selfie? Upload it now
-        </Text>
-        <Text className="text-base text-black-600 mt-2 mb-6 font-poppins-regular text-center">
-          {userId}
         </Text>
 
         <View className="relative">
@@ -124,12 +140,24 @@ const ProfilePictureScreen = () => {
         </View>
       </View>
 
-      <Pressable
-        className="w-full py-3 rounded-lg items-center bg-black"
-        onPress={handleUpload}
-      >
-        <Text className="text-white font-semibold text-lg">Next</Text>
-      </Pressable>
+      <View className="w-full space-y-3">
+        {/* Botón Omitir */}
+        <Pressable
+          onPress={handleSkip}
+          className="py-3 mt- rounded-lg items-center border border-black"
+        >
+          <Text className="text-black font-semibold text-lg">Omitir</Text>
+        </Pressable>
+
+        {/* Botón Next */}
+        <Pressable
+          onPress={handleUpload}
+          className={`py-3 rounded-lg items-center mt-4 ${isNextEnabled ? "bg-black" : "bg-gray-400"}`}
+          disabled={!isNextEnabled}
+        >
+          <Text className="text-white font-semibold text-lg">Next</Text>
+        </Pressable>
+      </View>
     </View>
   );
 };

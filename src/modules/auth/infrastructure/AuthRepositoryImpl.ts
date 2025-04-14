@@ -2,13 +2,17 @@ import { AuthRepository } from "../domain/AuthRepository";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import useLoginStore from "../context/LoginStore";
+import useUserProfileStore from "../context/UserProfileStore";
 
 export class AuthRepositoryImpl implements AuthRepository {
 
   async login(email: string, password: string): Promise<string> {
     try {
 
+      // variables de contexto login
       const { setToken, setisAuthenticated, token, isAuthenticated } = useLoginStore.getState();
+
+
 
       const requestData = { email, password };
       const response = await axios.post(
@@ -38,6 +42,10 @@ export class AuthRepositoryImpl implements AuthRepository {
   }
 
   async callMe(token: string): Promise<void> {
+
+    // variables de contexto userProfile
+    const { setUserId } = useUserProfileStore.getState();
+
     try {
 
       const userResponse = await axios.get(
@@ -60,10 +68,14 @@ export class AuthRepositoryImpl implements AuthRepository {
           ? 'verifier'
           : '';
 
+
       await AsyncStorage.setItem(
         'userSession',
         JSON.stringify({ token, membershipId, firstName, role, profilePicture })
       );
+      console.log('id de repository imp', membershipId)
+
+      setUserId(membershipId)
 
     } catch (error) {
       throw new Error("Credenciales incorrectas");

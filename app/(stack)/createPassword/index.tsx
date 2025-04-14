@@ -3,12 +3,14 @@ import { View, Text, TextInput, Pressable, Alert, ActivityIndicator, KeyboardAvo
 import { Ionicons } from '@expo/vector-icons';
 import { router } from "expo-router";
 import useCreateAccountStore from "@/src/modules/auth/context/CreateAccountStore";
+import useLoginStore from "@/src/modules/auth/context/LoginStore";
 
 const CreatePasswordScreen = () => {
   const [temporalPassword, setTemporalPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { invitationToken, setPassword, email } = useCreateAccountStore();
+  const { invitationToken, email } = useCreateAccountStore();
+  const { setPassword } = useLoginStore();
 
   // Verifica si la contraseña tiene al menos 8 caracteres
   const isPasswordValid = temporalPassword.length >= 8;

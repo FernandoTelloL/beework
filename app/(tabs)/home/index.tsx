@@ -4,6 +4,7 @@ import { View, FlatList, Text } from 'react-native';
 import { useRouter } from 'expo-router';
 import AdCard from '@/src/shared/components/AdCard';
 import useLoginStore from '@/src/modules/auth/context/LoginStore';
+import useUserProfileStore from '@/src/modules/auth/context/UserProfileStore';
 
 const ads = [
   {
@@ -38,6 +39,8 @@ export default function HomeScreen() {
 
   const { token, email, isAuthenticated, } = useLoginStore()
 
+  const { userId } = useUserProfileStore()
+  console.log('userid desde store', userId)
 
   const renderItem = ({ item }: { item: typeof ads[0] }) => (
     <AdCard

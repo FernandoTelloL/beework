@@ -1,4 +1,5 @@
-import { StyleSheet, Image, Platform, View, Text } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 
 const markers = [
@@ -42,6 +43,16 @@ const markers = [
 
 
 export default function BuscarTareasScreen() {
+  const [selectedMarker, setSelectedMarker] = useState(null);
+
+  const handleMapPress = () => {
+    setSelectedMarker(null); // Ocultar información del marcador al hacer clic en el mapa
+  };
+
+  const handleMarkerPress = (marker) => {
+    setSelectedMarker(marker); // Mostrar información del marcador seleccionado
+  };
+
   return (
     <View style={styles.container}>
       <MapView
@@ -52,6 +63,7 @@ export default function BuscarTareasScreen() {
           latitudeDelta: 0.01,
           longitudeDelta: 0.01,
         }}
+        onPress={handleMapPress} // Detectar clics en el mapa
       >
         {markers.map((marker) => (
           <Marker
@@ -62,9 +74,21 @@ export default function BuscarTareasScreen() {
             }}
             title={marker.title}
             description={`${marker.date}\n${marker.picker}\n${marker.cost}`}
+            onPress={() => handleMarkerPress(marker)} // Detectar clics en el marcador
           />
         ))}
       </MapView>
+      {selectedMarker && (
+        <View style={styles.markerInfo}>
+          <Text style={styles.markerTitle}>{selectedMarker.title}</Text>
+          <Text>{selectedMarker.date}</Text>
+          <Text>{selectedMarker.picker}</Text>
+          <Text>{selectedMarker.cost}</Text>
+          <TouchableOpacity onPress={() => setSelectedMarker(null)}>
+            <Text style={styles.closeButton}>Cerrar</Text>
+          </TouchableOpacity>
+        </View>
+      )}
     </View>
   );
 }
@@ -77,5 +101,29 @@ const styles = StyleSheet.create({
   map: {
     width: '100%',
     height: '100%',
+  },
+  markerInfo: {
+    position: 'absolute',
+    bottom: 20,
+    left: 20,
+    right: 20,
+    backgroundColor: '#fff',
+    padding: 15,
+    borderRadius: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  markerTitle: {
+    fontWeight: 'bold',
+    fontSize: 16,
+    marginBottom: 5,
+  },
+  closeButton: {
+    marginTop: 10,
+    color: 'blue',
+    textAlign: 'right',
   },
 });

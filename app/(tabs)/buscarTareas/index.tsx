@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, Pressable } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 
 const markers = [
@@ -79,14 +79,17 @@ export default function BuscarTareasScreen() {
         ))}
       </MapView>
       {selectedMarker && (
-        <View style={styles.markerInfo}>
-          <Text style={styles.markerTitle}>{selectedMarker.title}</Text>
+        <View className="absolute bottom-5 left-5 right-5 bg-white p-4 rounded-lg shadow-lg">
+          <Text className="font-bold text-lg mb-2">{selectedMarker.title}</Text>
           <Text>{selectedMarker.date}</Text>
           <Text>{selectedMarker.picker}</Text>
           <Text>{selectedMarker.cost}</Text>
-          <TouchableOpacity onPress={() => setSelectedMarker(null)}>
-            <Text style={styles.closeButton}>Cerrar</Text>
-          </TouchableOpacity>
+          <Pressable
+            className="text-right"
+            onPress={() => setSelectedMarker(null)}
+          >
+            <Text className="mt-3 text-blue-500 text-right">Cerrar</Text>
+          </Pressable>
         </View>
       )}
     </View>
@@ -101,29 +104,5 @@ const styles = StyleSheet.create({
   map: {
     width: '100%',
     height: '100%',
-  },
-  markerInfo: {
-    position: 'absolute',
-    bottom: 20,
-    left: 20,
-    right: 20,
-    backgroundColor: '#fff',
-    padding: 15,
-    borderRadius: 10,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  markerTitle: {
-    fontWeight: 'bold',
-    fontSize: 16,
-    marginBottom: 5,
-  },
-  closeButton: {
-    marginTop: 10,
-    color: 'blue',
-    textAlign: 'right',
   },
 });
